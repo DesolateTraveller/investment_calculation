@@ -104,41 +104,29 @@ def calculate_investment(principal, step_up_percent, step_up_frequency, interest
     # Convert annual interest rate to monthly
     monthly_rate = interest_rate / 12 / 100
     total_months = years * 12
-
-    # Initialize lists to store monthly values
     principal_list = []
     interest_list = []
     total_list = []
     months_list = []
-
     current_principal = principal
     accumulated_amount = principal
-
-    # Define step-up frequency in months
     frequency_dict = {
         'Monthly': 1,
         'Quarterly': 3,
         'Half Yearly': 6,
-        'Yearly': 12
-    }
+        'Yearly': 12}
     step_up_months = frequency_dict[step_up_frequency]
-
     for month in range(1, total_months + 1):
-        # Add interest for the month
         interest = accumulated_amount * monthly_rate
         accumulated_amount += interest
-
-        # Add step-up amount based on frequency
         if month % step_up_months == 0:
             step_up_amount = current_principal * (step_up_percent / 100)
             current_principal += step_up_amount
             accumulated_amount += step_up_amount
-
         principal_list.append(current_principal)
         total_list.append(accumulated_amount)
         interest_list.append(accumulated_amount - current_principal)
         months_list.append(month)
-
     return months_list, principal_list, interest_list, total_list
 
 #---------------------------------------------------------------------------------------------------------------------------------
@@ -152,7 +140,7 @@ with col1:
         principal = st.number_input("**Initial Principal Amount**", min_value=0, value=10000)
         step_up_percent = st.number_input("**Step-up Percentage (%)**", min_value=0.0, max_value=100.0, value=5.0,help="Percentage increase in principal at each step-up interval")
         step_up_frequency = st.selectbox("**Step-up Frequency**",options=['Monthly', 'Quarterly', 'Half Yearly', 'Yearly'])
-        interest_rate = st.number_input("**ROI (%)**", min_value=0.0, value=8.0)
+        interest_rate = st.number_input("**ROI (%)**", min_value=0.00, value=8.00)
         years = st.number_input("**Period (Years)**", min_value=1, value=5)
     
     months, principal_values, interest_values, total_values = calculate_investment(principal, step_up_percent, step_up_frequency, interest_rate, years)   
@@ -162,6 +150,7 @@ with col1:
         - Step-up: {step_up_percent}% {step_up_frequency.lower()}
         - First step-up amount: ₹{(principal * step_up_percent / 100):,.2f}
         - Last step-up amount: ₹{(principal_values[-2] * step_up_percent / 100):,.2f}
+        - ROI : {interest_rate:,.2f} | years : {years}
         """)
 
 with col2:
