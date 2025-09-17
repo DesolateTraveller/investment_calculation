@@ -150,7 +150,7 @@ with col1:
         - Step-up: {step_up_percent}% {step_up_frequency.lower()}
         - First step-up amount: ₹{(principal * step_up_percent / 100):,.2f}
         - Last step-up amount: ₹{(principal_values[-2] * step_up_percent / 100):,.2f}
-        - ROI : {interest_rate:,.2f} | years : {years}
+        - ROI : {interest_rate:,.2f} | Investment years : {years}
         """)
 
 with col2:
